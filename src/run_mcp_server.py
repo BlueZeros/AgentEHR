@@ -1,0 +1,91 @@
+import os
+import asyncio
+import pandas as pd
+import numpy as np
+import json
+from pydantic import Field
+from typing import Annotated
+from sentence_transformers import SentenceTransformer
+from thefuzz import fuzz
+from fastmcp import FastMCP, Context
+from fastmcp.resources import TextResource, BinaryResource
+from agentlite.commons import EHRManager
+from agentlite.commons.fastmcp import mcp
+
+def get_parser():
+    import argparse
+    parser = argparse.ArgumentParser(description="EHR MCP Tool Server")
+    parser.add_argument('--data_path', type=str, default="/home/ma-user/work/liaoyusheng/projects/EHRAgent/datas/datas/sample/db/patients_new", help='Path to the EHR data directory')
+    parser.add_argument('--mode', type=str, default="studio", choices=["studio", "http"], help='Mode to run the server in')
+    parser.add_argument('--host', type=str, default="127.0.0.1", help='Host IP for HTTP mode')
+    parser.add_argument('--port', type=int, default=9000, help='Port for HTTP mode')
+    return parser.parse_args()
+
+args = get_parser()
+ehr_manager = EHRManager(args.data_path)
+
+@mcp.tool(
+    name="load_ehr",
+    description="Load the ehr data for the given subject_id and current_timestamp. This action should be taken once at the beginning of each task.",
+)
+def load_ehr(
+    subject_id: Annotated[str, Field(description="The unique identifier for the patient whose EHR database needs to be loaded (e.g., '10000032').")],
+    timestamp: Annotated[str, Field(description="The current timestamp in 'YYYY-MM-DD HH:MM:SS' format (e.g., '2150-12-01 10:00:00').")]
+) -> str:
+    """
+    Loads the EHR database for a specific patient by subject ID.
+    Args:
+        subject_id (str): The unique identifier for the patient.
+        timestamp (str): The current timestamp in 'YYYY-MM-DD HH:MM:SS' format.
+    Returns:
+        str: Success or error message.
+    """
+    try:
+        load_log = ehr_manager.load_ehr_for_sample(subject_id, timestamp)
+        
+        ehr_data = ehr_manager.get_ehr_data_json()
+        for table_name in ehr_data:
+            mcp.add_resource(TextResource(uri=f"cache://ehr/ehr_data/{subject_id}/{table_name}.json", text=json.dumps(ehr_data[table_name]), mime_type="application/json"))
+        print("test 1")
+
+        ehr_data_table_list = ehr_manager.get_ehr_table_names()
+        mcp.add_resource(TextResource(uri=f"cache://ehr/ehr_data/{subject_id}/table_list.json", text=json.dumps(ehr_data_table_list), mime_type="application/json"))
+        print("test 2")
+        
+        cand_data = ehr_manager.get_candidate_data_json()
+        for table_name in cand_data:
+            mcp.add_resource(TextResource(uri=f"cache://ehr/candidate_data/{table_name}.json", text=json.dumps(cand_data[table_name]), mime_type="application/json"))
+        print("test 3")
+
+        cand_data_table_list = ehr_manager.get_candidate_table_names()
+        mcp.add_resource(TextResource(uri=f"cache://ehr/candidate_data/table_list.json", text=json.dumps(cand_data_table_list), mime_type="application/json"))
+
+        descriptions = ehr_manager.descriptions
+        mcp.add_resource(TextResource(uri=f"cache://ehr/descriptions.json", text=json.dumps(descriptions), mime_type="application/json"))
+
+        return load_log
+    except Exception as e:
+        return f"An error occurred while loading EHR database: {str(e)}"
+        
+# import agentlite.action_tools.mcp_tools
+import agentlite.mcp_tools.table_tools
+import agentlite.mcp_tools.record_tools
+import agentlite.mcp_tools.candidate_tools
+import agentlite.mcp_tools.knowledge_tools
+import agentlite.mcp_tools.resource_tools
+import agentlite.mcp_tools.inner_tools
+
+
+async def run_mcp_server():
+    if args.mode == "studio":
+        mcp.run()
+    else:
+        await mcp.run_async(
+            transport="http", 
+            host=args.host,
+            port=args.port,
+        )
+
+if __name__ == '__main__':
+
+    asyncio.run(run_mcp_server())
