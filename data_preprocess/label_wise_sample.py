@@ -133,7 +133,7 @@ def parse_args():
 
     parser.add_argument("--input_path", type=str, required=True)
     parser.add_argument("--output_path", type=str, required=True)
-    parser.add_argument("--item_path", type=str, default="/sfs/rhome/liaoyusheng/data/Datasets/EHRAgent/EHRAgentBench/item_set")
+    parser.add_argument("--item_path", type=str, default="../data/MIMICIVAgentBench/item_set")
     parser.add_argument("--sample_mode", type=str, choices=["common", "normal", "rare"], default="normal")
     parser.add_argument("--sample_num", type=int, default=100)
     parser.add_argument("--suffix", type=str, default="")
