@@ -103,4 +103,3 @@ If you find our work helpful, please cite our submission:
   journal={ACL submission},
   year={2026}
 } -->
-```
