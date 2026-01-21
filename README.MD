@@ -24,8 +24,6 @@ To address the information loss inherent in long-context clinical reasoning, we 
     + [**Step 1: Environment Setup**](#step-1-environment-setup)
     + [**Step 2: Database Preparation**](#step-2-database-preparation)
     + [**Step 3: Running Agents**](#step-3-running-agents)
-  * [**Methods: RETROSUM**](#--methods-retrosum--)
-  * [**Citation**](#citation)
 
 ----------------------------------------
 
