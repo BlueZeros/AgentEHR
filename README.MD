@@ -94,7 +94,7 @@ bash ./scripts/run/run_mcp_server.sh
 bash ./scripts/method_run/qwen3_30b_moe_react.sh
 ```
 
-## Citation
+<!-- ## Citation
 If you find our work helpful, please cite our submission:
 ```bib
 @article{agentehr2026,
@@ -102,5 +102,5 @@ If you find our work helpful, please cite our submission:
   author={Anonymous},
   journal={ACL submission},
   year={2026}
-}
+} -->
 ```
