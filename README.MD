@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![Arxiv](https://img.shields.io/badge/paper-A82F27?style=for-the-badge&logo=arxiv)](https://arxiv.org/abs/2508.15746) 
+[![Arxiv](https://img.shields.io/badge/paper-A82F27?style=for-the-badge&logo=arxiv)](http://arxiv.org/abs/2601.13918) 
 [![Data](https://img.shields.io/badge/data-808080?style=for-the-badge&logo=huggingface)](https://huggingface.co/datasets/BlueZeros/AgentEHR-Bench) 
 
 </div>
