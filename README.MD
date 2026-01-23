@@ -78,7 +78,6 @@ Modify existing task scripts to adapt to new requirements:
 
 2. Adapt `./data_preprocess/candidate_processing.py` to construct corresponding candidate tables and standardized label spaces.
 
-
 ### **Step 3: Running Agents**
 To evaluate an agent method on the AgentEHR task with a specified summarization window $w$ (e.g., 10 turns)
 ```bash
@@ -92,12 +91,13 @@ bash ./scripts/run/run_mcp_server.sh
 bash ./scripts/method_run/qwen3_30b_moe_react.sh
 ```
 
-<!-- ## Citation
+## Citation
 If you find our work helpful, please cite our submission:
 ```bib
-@article{agentehr2026,
-  title={AGENTEHR: Advancing Autonomous Clinical Decision-Making via Retrospective Summarization},
-  author={Anonymous},
-  journal={ACL submission},
+@article{liao2026agentehr,
+  title={AgentEHR: Advancing Autonomous Clinical Decision-Making via Retrospective Summarization},
+  author={Yusheng Liao and Chuan Xuan and Yutong Cai and Lina Yang and Zhe Chen and Yanfeng Wang and Yu Wang},
+  journal={arXiv preprint arXiv:2601.13918},
   year={2026}
-} -->
+}
+```
