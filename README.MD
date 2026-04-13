@@ -63,7 +63,7 @@ You can prepare the data in three ways depending on your requirements:
 Download the dataset from [AgentEHR-Bench](https://huggingface.co/datasets/BlueZeros/AgentEHR-Bench). Copy the `MIMICIVAgentBench` and `MIMICIIIAgentBench` folders into the `./data` folder in your root directory.
 
 #### Option 2: Build More Samples (Based on MIMIC-IV) 
-All samples for the 6 tasks in MIMIC-IV are stored in `MIMICIVBench/all`. You can use these directly to sample more metadata and create additional .db files as follow:
+All samples for the 6 tasks in MIMIC-IV are stored in `MIMICIVAgentBench/all`. You can use these directly to sample more metadata and create additional .db files as follows:
 ```bash
 # label-wise sampling
 bash ./scripts/data_preprocess/label_wise_sample.sh
